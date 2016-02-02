@@ -30,5 +30,5 @@ array(4) {
   int(%d)
 }
 Trace: 
-#0  {closure}() called at [%s/004.php:%d]
+#0  {closure}(%S) called at [%s/004.php:%d]
 #1  test_error() called at [%s/004.php:%d]

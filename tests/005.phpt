@@ -21,13 +21,13 @@ array(4) {
   [0]=>
   int(1)
   [1]=>
-  string(40) "Call to a member function call() on null"
+  string(%d) "Call to a member function call() on %r(null|a non-object)%r"
   [2]=>
   string(77) "data:,<?php function throw_fatal() {$obj = null;$obj->call();} throw_fatal();"
   [3]=>
   int(1)
 }
 Trace: 
-#0  {closure}() called at [data:,<?php function throw_fatal() {$obj = null;$obj->call();} throw_fatal();:1]
+#0  {closure}(%S) called at [data:,<?php function throw_fatal() {$obj = null;$obj->call();} throw_fatal();:1]
 #1  throw_fatal() called at [data:,<?php function throw_fatal() {$obj = null;$obj->call();} throw_fatal();:1]
 #2  include(data:,<?php function throw_fatal() {$obj = null;$obj->call();} throw_fatal();) called at [%s/005.php:%d]
