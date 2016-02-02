@@ -10,7 +10,7 @@ fatal_error_handler(function($code, $message, $file, $line) {
   echo "Args: \n";
   var_dump(func_get_args());
   echo "Trace: \n";
-  debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+  debug_print_backtrace();
 });
 
 include 'data:,<?php function throw_fatal() {$obj = null;$obj->call();} throw_fatal();';
