@@ -1,0 +1,25 @@
+language: php 
+
+php:
+  # aliased to 5.3.29
+  - 5.3
+  # aliased to a recent 5.4.x version
+  - 5.4
+  # aliased to a recent 5.5.x version
+  - 5.5
+  # aliased to a recent 5.6.x version
+  - 5.6
+
+notifications:
+  email:
+    - buglloc@yandex.ru
+
+env:
+  - REPORT_EXIT_STATUS=1 NO_INTERACTION=1
+
+#Compile
+before_script:
+    - ./travis/compile.sh
+
+# Run PHPs run-tests.php 
+script: make test
