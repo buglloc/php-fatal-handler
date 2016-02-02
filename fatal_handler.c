@@ -17,6 +17,7 @@
 
 
 ZEND_DECLARE_MODULE_GLOBALS(fatal_handler)
+static PHP_GINIT_FUNCTION(fatal_handler);
 
 /* error handling redirection functions */
 ZEND_API void (*orig_error_cb)(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args);
@@ -42,26 +43,35 @@ static const zend_function_entry fatal_handler_functions[] = {
 /* {{{ fatal_handler_module_entry
  */
 zend_module_entry fatal_handler_module_entry = {
-    STANDARD_MODULE_HEADER,
-    "fatal_handler",
-    fatal_handler_functions,
-    PHP_MINIT(fatal_handler), /* PHP_MINIT */
-    NULL, /* PHP_MSHUTDOWN */
-    PHP_RINIT(fatal_handler), /* PHP_RINIT */
-    PHP_RSHUTDOWN(fatal_handler), /* PHP_RSHUTDOWN */
-    PHP_MINFO(fatal_handler),
-    PHP_FEH_VERSION,
-    STANDARD_MODULE_PROPERTIES
+	STANDARD_MODULE_HEADER,
+	"fatal_handler",
+	fatal_handler_functions,
+	PHP_MINIT(fatal_handler), /* PHP_MINIT */
+	NULL, /* PHP_MSHUTDOWN */
+	PHP_RINIT(fatal_handler), /* PHP_RINIT */
+	PHP_RSHUTDOWN(fatal_handler), /* PHP_RSHUTDOWN */
+	PHP_MINFO(fatal_handler),
+	PHP_FEH_VERSION,
+	PHP_MODULE_GLOBALS(fatal_handler),
+	PHP_GINIT(fatal_handler),
+	NULL,
+	NULL,
+	STANDARD_MODULE_PROPERTIES_EX
 };
 /* }}} */
 
 #ifdef COMPILE_DL_FATAL_HANDLER
-#ifdef ZTS
-ZEND_TSRMLS_CACHE_DEFINE();
-#endif
 ZEND_GET_MODULE(fatal_handler)
 #endif
 
+/* {{{ PHP_GINIT_FUNCTION
+ */
+static PHP_GINIT_FUNCTION(fatal_handler)
+{
+	memset(fatal_handler_globals, 0, sizeof(*fatal_handler_globals));
+	fatal_handler_globals->user_error_handler = NULL;
+}
+/* }}} */
 
 /* {{{ PHP_MINIT_FUNCTION
  */

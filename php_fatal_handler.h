@@ -10,6 +10,10 @@
 extern zend_module_entry fatal_handler_module_entry;
 #define phpext_fatal_handler_ptr &fatal_handler_module_entry
 
+#ifdef ZTS
+#include "TSRM.h"
+#endif
+
 #ifdef PHP_WIN32
 #   define PHP_FATAL_HANDLER_API __declspec(dllexport)
 #elif defined(__GNUC__) && __GNUC__ >= 4
