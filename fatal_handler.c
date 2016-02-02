@@ -23,9 +23,6 @@ ZEND_API void (*orig_error_cb)(int type, const char *error_filename, const uint 
 ZEND_API void php_feh_error_cb(int type, const char *error_filename, const uint error_lineno, const char *format, va_list args);
 
 /* {{{ arginfo */
-ZEND_BEGIN_ARG_INFO_EX(arginfo_fatal_error_handler_inited, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_fatal_error_handler, 0, 0, 1)
 	ZEND_ARG_INFO(0, fatal_error_handler)
 ZEND_END_ARG_INFO()
