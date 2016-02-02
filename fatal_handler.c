@@ -157,6 +157,7 @@ ZEND_API void php_feh_error_cb(int type, const char *error_filename, const uint 
 	zval *retval;
 	zval *z_error_type, *z_error_message, *z_error_filename, *z_error_lineno;
 	zval *user_error_handler;
+	TSRMLS_FETCH();
 
 	if (type != E_ERROR
 		|| !FEH_G(user_error_handler)
