@@ -159,10 +159,7 @@ ZEND_API void php_feh_error_cb(int type, const char *error_filename, const uint 
 	zval *user_error_handler;
 	TSRMLS_FETCH();
 
-	if (type != E_ERROR
-		|| !FEH_G(user_error_handler)
-		|| !php_get_module_initialized()
-	) {
+	if (type != E_ERROR || !FEH_G(user_error_handler)) {
 		orig_error_cb(type, error_filename, error_lineno, format, args);
 		return;
 	}
