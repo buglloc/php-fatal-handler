@@ -12,6 +12,7 @@
 #include "php.h"
 #include "SAPI.h"
 #include "Zend/zend.h"
+#include "Zend/zend_exceptions.h"
 #include "ext/standard/info.h"
 #include "php_fatal_handler.h"
 
@@ -206,6 +207,30 @@ ZEND_API void php_feh_error_cb(int type, const char *error_filename, const uint 
 	if (r != SUCCESS && !EG(exception)) {
 		/* The user error handler failed, use built-in error handler */
 		orig_error_cb(type, error_filename, error_lineno, format, args);
+		return;
+	} else if (EG(exception)) {
+		if (EG(user_exception_handler)) {
+			zval *orig_user_exception_handler;
+			zval **params[1], *retval2, *old_exception;
+			old_exception = EG(exception);
+			EG(exception) = NULL;
+			params[0] = &old_exception;
+			orig_user_exception_handler = EG(user_exception_handler);
+			if (call_user_function_ex(CG(function_table), NULL, orig_user_exception_handler, &retval2, 1, params, 1, NULL TSRMLS_CC) == SUCCESS) {
+				if (retval2 != NULL) {
+					zval_ptr_dtor(&retval2);
+				}
+				if (EG(exception)) {
+					zval_ptr_dtor(&old_exception);
+					zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
+				}
+			} else {
+				EG(exception) = old_exception;
+				zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
+			}
+		} else {
+			zend_exception_error(EG(exception), E_ERROR TSRMLS_CC);
+		}
 	}
 
 	EG(exit_status) = 255;
