@@ -28,7 +28,7 @@ extern zend_module_entry fatal_handler_module_entry;
 #define FEH_G(v) (fatal_handler_globals.v)
 #endif
 
-#define PHP_FEH_VERSION "0.1"
+#define PHP_FEH_VERSION "0.2"
 
 ZEND_BEGIN_MODULE_GLOBALS(fatal_handler)
   zval *user_error_handler;
